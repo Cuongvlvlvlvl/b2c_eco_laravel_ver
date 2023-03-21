@@ -91,17 +91,20 @@ class DeptController extends Controller
                 'desc' => 'string',
             ]);
             if($uid == $uidc){
-                $dept = Dept::find($id);
+                $dept = Dept::where('id', $uid)->first();
                 $dept->name = $req->name;
                 $dept->value = $req->value;
+                $dept->valuepertime = $req->valuepertime;
                 $dept->desc = $req->desc;
                 $dept->save();
             } else {
+                $today = date('Y-m-d H:i:s');
                 $dept = Dept::create([
                     'id' => $uid,
                     'name' => $req->name,
                     'value' => $req->value,
                     'valuepertime' => $req->valuepertime,
+                    'adddate' => $today,
                     'desc' => $req->desc,
                 ]);
             }
@@ -129,7 +132,7 @@ class DeptController extends Controller
                 'message' => 'forbidden',
             ], 401);
         } else {
-            $dept = Dept::find($id);
+            $dept = Dept::where('id', $uid)->first();
             $dept->delete();
         }
         return response()->json([
