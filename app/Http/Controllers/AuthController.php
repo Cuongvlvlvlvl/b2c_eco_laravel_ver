@@ -39,12 +39,14 @@ class AuthController extends Controller
                 'username' => 'required|string|unique:user,username',
                 'password' => 'required|string',
                 'name' => 'string',
+                'money' => 'required|numberic',
                 'email' => 'string|email',
             ]);
             $user = User::create([
                 'username' => $req->username,
                 'name' => $req->name,
                 'email' => $req->email,
+                'money' => $req->money,
                 'password' => Hash::make($req->password),
             ]);
         } catch(Throwable $ex) {

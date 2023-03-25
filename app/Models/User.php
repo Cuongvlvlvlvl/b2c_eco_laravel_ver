@@ -33,7 +33,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public $timestamps = false;
 
-    protected $fillable = ['id', 'username', 'email', 'password', 'name'];
+    protected $fillable = ['id', 'username', 'email', 'password', 'name', 'money'];
 
     public function getJWTIdentifier()
     {
