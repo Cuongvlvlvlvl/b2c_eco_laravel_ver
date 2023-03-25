@@ -24,7 +24,7 @@ class DeptController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'Dept' => $type,
+            'dept' => $type,
         ], 200);
 
     }
@@ -37,7 +37,7 @@ class DeptController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'Depts' => $type,
+            'depts' => $type,
         ], 200);
 
     }
@@ -74,7 +74,7 @@ class DeptController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'Dept' => $dept,
+            'dept' => $dept,
         ], 200);
 
     }
@@ -119,7 +119,7 @@ class DeptController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'Dept' => $dept,
+            'dept' => $dept,
         ], 200);
     }
 

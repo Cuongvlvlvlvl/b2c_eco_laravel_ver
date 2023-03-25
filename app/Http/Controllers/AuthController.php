@@ -26,18 +26,11 @@ class AuthController extends Controller
         if(!$token) {
             return response()->json([
                 'status' => 'err',
-                'message' => 'unauthorized',
-            ], 401);
+                'message' => 'forbidden',
+            ], 403);
         }
         $user = Auth::user();
-        return response()->json([
-            'status' => 'success',
-            'user' => $user,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ],
-        ], 200);
+        return response()->json(['token' => $token], 200);
     }
 
     public function register(Request $req){
@@ -57,17 +50,10 @@ class AuthController extends Controller
         } catch(Throwable $ex) {
             return response()->json([
                 'status' => 'err',
-                'message' => 'bad request',
-            ], 400);
+                'message' => 'forbidden',
+            ], 403);
         }
         $token = Auth::login($user);
-        return response()->json([
-            'status' => 'success',
-            'user' => $user,
-            'authorization' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ],
-        ], 200);
+        return response()->json(['token' => $token], 200);
     }
 }
