@@ -14,7 +14,7 @@ class Spending extends Model
      *
      * @var string
      */
-    protected $table = 'dept';
+    protected $table = 'spending';
 
     // /**
     //  * The primary key associated with the table.
@@ -30,5 +30,5 @@ class Spending extends Model
      */
     public $timestamps = false;
 
-    protected $fillable = ['ids', 'id', 'idc', 'name', 'value', 'valuepertime', 'adddate', 'desc'];
+    protected $fillable = ['ids', 'id', 'idc', 'name', 'value', 'adddate', 'desc'];
 }

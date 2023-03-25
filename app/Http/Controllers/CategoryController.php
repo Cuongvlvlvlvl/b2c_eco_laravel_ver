@@ -19,4 +19,13 @@ class CategoryController extends Controller
             'CategoryName' => $type,
         ], 200);
     }
+
+    
+    public function getAllCates($id){
+        $type = Category::all();
+        return response()->json([
+            'status' => 'success',
+            'AllCategories' => $type,
+        ], 200);
+    }
 }

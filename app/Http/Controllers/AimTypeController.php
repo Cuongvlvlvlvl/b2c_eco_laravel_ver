@@ -19,4 +19,12 @@ class AimTypeController extends Controller
             'AimTypeName' => $type,
         ], 200);
     }
+
+    public function getAllTypes(){
+        $type = AimType::all();
+        return response()->json([
+            'status' => 'success',
+            'AllAimTypes' => $type,
+        ], 200);
+    }
 }

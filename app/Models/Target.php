@@ -14,7 +14,7 @@ class Target extends Model
      *
      * @var string
      */
-    protected $table = 'dept';
+    protected $table = 'target';
 
     // /**
     //  * The primary key associated with the table.

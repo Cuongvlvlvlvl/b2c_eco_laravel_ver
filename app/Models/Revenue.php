@@ -14,7 +14,7 @@ class Revenue extends Model
      *
      * @var string
      */
-    protected $table = 'dept';
+    protected $table = 'revenue';
 
     // /**
     //  * The primary key associated with the table.
