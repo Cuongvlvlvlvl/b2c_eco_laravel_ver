@@ -18,9 +18,9 @@ class TargetController extends Controller
         $uid = auth()->user()->id;
 
         $type = Target::where([
-            'idt', $id,
-            'id', $uid,
-            ])->get();
+            ['id', '=', $uid],
+            ['idr', '=', $id]
+        ])->first();
 
         return response()->json([
             'status' => 'success',
@@ -52,7 +52,6 @@ class TargetController extends Controller
                 'name' => 'required|string',
                 'value' => 'required|numeric',
                 'adddate' => 'required|date',
-                'desc' => 'string',
             ]);
 
             $target = Target::create([
@@ -61,8 +60,7 @@ class TargetController extends Controller
                 'name' => $req->name,
                 'value' => $req->value,
                 'adddate' => $req->adddate,
-                'desc' => $req->desc,
-            ]);
+            ])->get()->last();
         } catch(Throwable $ex) {
 
             return response()->json([
@@ -88,14 +86,15 @@ class TargetController extends Controller
                 'ida' => 'required|numeric',
                 'name' => 'required|string',
                 'value' => 'required|numeric',
-                'desc' => 'string',
             ]);
             if($uid == $uidc){
-                $target = Target::where('id', $uid)->first();
+                $target = Target::where([
+                    ['id', '=', $uid],
+                    ['idr', '=', $id]
+                ])->first();
                 $target->ida = $req->ida;
                 $target->name = $req->name;
                 $target->value = $req->value;
-                $target->desc = $req->desc;
                 $target->save();
             } else {
                 $today = date('Y-m-d H:i:s');
@@ -104,8 +103,7 @@ class TargetController extends Controller
                     'name' => $req->name,
                     'value' => $req->value,
                     'adddate' => $today,
-                    'desc' => $req->desc,
-                ]);
+                ])->get()->last();
             }
         } catch(Throwable $ex) {
 
@@ -131,8 +129,10 @@ class TargetController extends Controller
                 'message' => 'forbidden',
             ], 401);
         } else {
-            $target = Target::where('id', $uid)->first();
-            $target->delete();
+            Target::where([
+                ['id', '=', $uid],
+                ['idr', '=', $id]
+            ])->delete();
         }
         return response()->json([
             'status' => 'success',

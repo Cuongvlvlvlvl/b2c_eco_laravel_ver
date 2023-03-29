@@ -18,9 +18,9 @@ class DeptController extends Controller
         $uid = auth()->user()->id;
 
         $type = Dept::where([
-            'idc', $id,
-            'id', $uid,
-            ])->get();
+            ['id', '=', $uid],
+            ['idr', '=', $id]
+        ])->first();
 
         return response()->json([
             'status' => 'success',
@@ -62,7 +62,7 @@ class DeptController extends Controller
                 'valuepertime' => $req->valuepertime,
                 'adddate' => $req->adddate,
                 'desc' => $req->desc,
-            ]);
+            ])->get()->last();
         } catch(Throwable $ex) {
 
             return response()->json([
@@ -91,7 +91,10 @@ class DeptController extends Controller
                 'desc' => 'string',
             ]);
             if($uid == $uidc){
-                $dept = Dept::where('id', $uid)->first();
+                $dept = Dept::where([
+                    ['id', '=', $uid],
+                    ['idr', '=', $id]
+                ])->get()->last();
                 $dept->name = $req->name;
                 $dept->value = $req->value;
                 $dept->valuepertime = $req->valuepertime;
@@ -106,7 +109,7 @@ class DeptController extends Controller
                     'valuepertime' => $req->valuepertime,
                     'adddate' => $today,
                     'desc' => $req->desc,
-                ]);
+                ])->get()->last();
             }
         } catch(Throwable $ex) {
 
@@ -132,8 +135,10 @@ class DeptController extends Controller
                 'message' => 'forbidden',
             ], 401);
         } else {
-            $dept = Dept::where('id', $uid)->first();
-            $dept->delete();
+            Dept::where([
+                ['id', '=', $uid],
+                ['idr', '=', $id]
+            ])->delete();
         }
         return response()->json([
             'status' => 'success',

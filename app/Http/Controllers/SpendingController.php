@@ -18,9 +18,9 @@ class SpendingController extends Controller
         $uid = auth()->user()->id;
 
         $type = Spending::where([
-            'idr', $id,
-            'id', $uid,
-            ])->get();
+            ['id', '=', $uid],
+            ['idr', '=', $id]
+        ])->first();
 
         return response()->json([
             'status' => 'success',
@@ -62,7 +62,7 @@ class SpendingController extends Controller
                 'value' => $req->value,
                 'adddate' => $req->adddate,
                 'desc' => $req->desc,
-            ]);
+            ])->get()->last();
         } catch(Throwable $ex) {
 
             return response()->json([
@@ -91,7 +91,10 @@ class SpendingController extends Controller
                 'desc' => 'string',
             ]);
             if($uid == $uidc){
-                $spending = Spending::where('id', $uid)->first();
+                $spending = Spending::where([
+                    ['id', '=', $uid],
+                    ['idr', '=', $id]
+                ])->get()->first();
                 $spending->name = $req->name;
                 $spending->value = $req->value;
                 $spending->desc = $req->desc;
@@ -104,7 +107,7 @@ class SpendingController extends Controller
                     'value' => $req->value,
                     'adddate' => $today,
                     'desc' => $req->desc,
-                ]);
+                ])->get()->last();
             }
         } catch(Throwable $ex) {
 
@@ -130,8 +133,10 @@ class SpendingController extends Controller
                 'message' => 'forbidden',
             ], 401);
         } else {
-            $spending = Spending::where('id', $uid)->first();
-            $spending->delete();
+            Spending::where([
+                ['id', '=', $uid],
+                ['idr', '=', $id]
+            ])->delete();
         }
         return response()->json([
             'status' => 'success',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Revenue;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -18,9 +19,9 @@ class RevenueController extends Controller
         $uid = auth()->user()->id;
 
         $type = Revenue::where([
-            'idr', $id,
-            'id', $uid,
-            ])->get();
+            ['idr', '=', $id],
+            ['id', '=', $uid]
+            ])->first();
 
         return response()->json([
             'status' => 'success',
@@ -58,15 +59,17 @@ class RevenueController extends Controller
                 'id' => $uid,
                 'name' => $req->name,
                 'value' => $req->value,
-                'adddate' => $req->adddate,
+                'adddate' => Carbon::parse(),
                 'desc' => $req->desc,
-            ]);
+            ])->get()->last();
+
         } catch(Throwable $ex) {
 
-            return response()->json([
-                'status' => 'err',
-                'message' => 'bad request',
-            ], 400);
+            return $ex;
+            // return response()->json([
+            //     'status' => 'err',
+            //     'message' => 'bad request',
+            // ], 400);
 
         }
 
@@ -88,7 +91,10 @@ class RevenueController extends Controller
                 'desc' => 'string',
             ]);
             if($uid == $uidc){
-                $revenue = Revenue::where('id', $uid)->first();
+                $revenue = Revenue::where([
+                    ['id', '=', $uid],
+                    ['idr', '=', $id]
+                ])->get()->first();
                 $revenue->name = $req->name;
                 $revenue->value = $req->value;
                 $revenue->desc = $req->desc;
@@ -101,7 +107,7 @@ class RevenueController extends Controller
                     'value' => $req->value,
                     'adddate' => $today,
                     'desc' => $req->desc,
-                ]);
+                ])->get()->last();
             }
         } catch(Throwable $ex) {
 
@@ -127,8 +133,10 @@ class RevenueController extends Controller
                 'message' => 'forbidden',
             ], 401);
         } else {
-            $revenue = Revenue::where('id', $uid)->first();
-            $revenue->delete();
+            Revenue::where([
+                ['id', '=', $uid],
+                ['idr', '=', $id]
+            ])->delete();
         }
         return response()->json([
             'status' => 'success',
