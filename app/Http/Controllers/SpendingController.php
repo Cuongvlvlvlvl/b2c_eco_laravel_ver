@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Spending;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class SpendingController extends Controller
@@ -143,5 +144,23 @@ class SpendingController extends Controller
             'message' => 'deleted',
         ], 200);
 
+    }
+
+    public function getSpendingCalc(){
+        $uid = auth()->user()->id;
+        $result = DB::select("SELECT category.name as category, SUM(spending.value) as value FROM (SELECT * FROM spending WHERE spending.id= '$uid' ) spending INNER JOIN category ON spending.idc=category.idc GROUP BY category.name");
+        return response()->json([
+            'status' => 'success',
+            'message' => $result,
+        ], 200);
+    }
+
+    public function getTopSpending(){
+        $uid = auth()->user()->id;
+        $result = DB::select("SELECT * FROM spending WHERE spending.id = '$uid' ORDER BY spending.ids DESC LIMIT 7");
+        return response()->json([
+            'status' => 'success',
+            'message' => $result,
+        ], 200);
     }
 }

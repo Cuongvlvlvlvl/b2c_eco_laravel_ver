@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Revenue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class RevenueController extends Controller
@@ -143,5 +144,14 @@ class RevenueController extends Controller
             'message' => 'deleted',
         ], 200);
 
+    }
+
+    public function getRevenueCalc(){
+        $uid = auth()->user()->id;
+        $result = DB::select("SELECT * FROM revenue WHERE revenue.id = '$uid' ORDER BY revenue.idr DESC LIMIT 7");
+        return response()->json([
+            'status' => 'success',
+            'message' => $result,
+        ], 200);
     }
 }
