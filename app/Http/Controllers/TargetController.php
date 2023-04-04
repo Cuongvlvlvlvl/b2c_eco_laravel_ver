@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Target;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -59,7 +60,7 @@ class TargetController extends Controller
                 'ida' => $req->ida,
                 'name' => $req->name,
                 'value' => $req->value,
-                'adddate' => $req->adddate,
+                'adddate' => Carbon::parse($req->adddate),
             ])->get()->last();
         } catch(Throwable $ex) {
 

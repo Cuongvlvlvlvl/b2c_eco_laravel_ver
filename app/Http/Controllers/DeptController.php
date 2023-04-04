@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dept;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -60,7 +61,7 @@ class DeptController extends Controller
                 'name' => $req->name,
                 'value' => $req->value,
                 'valuepertime' => $req->valuepertime,
-                'adddate' => $req->adddate,
+                'adddate' => Carbon::parse($req->adddate),
                 'desc' => $req->desc,
             ])->get()->last();
         } catch(Throwable $ex) {

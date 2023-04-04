@@ -60,7 +60,7 @@ class RevenueController extends Controller
                 'id' => $uid,
                 'name' => $req->name,
                 'value' => $req->value,
-                'adddate' => Carbon::parse(),
+                'adddate' => Carbon::parse($req->adddate),
                 'desc' => $req->desc,
             ])->get()->last();
 
