@@ -85,7 +85,7 @@ class SpendingController extends Controller
         
         $uidc = auth()->user()->id;
 
-        // try{
+        try{
             $req->validate([
                 'idc' => 'required|numeric',
                 'name' => 'required|string',
@@ -109,14 +109,14 @@ class SpendingController extends Controller
                     'desc' => $req->desc,
                 ])->get()->last();
             }
-        // } catch(Throwable $ex) {
+        } catch(Throwable $ex) {
 
-        //     return response()->json([
-        //         'status' => 'err',
-        //         'message' => 'bad request',
-        //     ], 400);
+            return response()->json([
+                'status' => 'err',
+                'message' => 'bad request',
+            ], 400);
 
-        // }
+        }
 
         return response()->json([
             'status' => 'success',

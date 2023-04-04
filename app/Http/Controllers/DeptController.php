@@ -92,15 +92,12 @@ class DeptController extends Controller
                 'desc' => 'string',
             ]);
             if($uid == $uidc){
-                $dept = Dept::where([
-                    ['id', '=', $uid],
-                    ['idr', '=', $id]
-                ])->get()->last();
-                $dept->name = $req->name;
-                $dept->value = $req->value;
-                $dept->valuepertime = $req->valuepertime;
-                $dept->desc = $req->desc;
-                $dept->save();
+                $dept = Dept::where('idd', $id)->update([
+                    'name' => $req->name,
+                    'value' => $req->value,
+                    'valuepertime' => $req->valuepertime,
+                    'desc' => $req->desc,
+                ]);
             } else {
                 $today = date('Y-m-d H:i:s');
                 $dept = Dept::create([

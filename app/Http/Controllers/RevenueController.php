@@ -92,14 +92,11 @@ class RevenueController extends Controller
                 'desc' => 'string',
             ]);
             if($uid == $uidc){
-                $revenue = Revenue::where([
-                    ['id', '=', $uid],
-                    ['idr', '=', $id]
-                ])->get()->first();
-                $revenue->name = $req->name;
-                $revenue->value = $req->value;
-                $revenue->desc = $req->desc;
-                $revenue->save();
+                $revenue = Revenue::where('idr', $id)->update([
+                    'name' => $req->name,
+                    'value' => $req->value,
+                    'desc' => $req->desc,
+                ]);
             } else {
                 $today = date('Y-m-d H:i:s');
                 $revenue = Revenue::create([

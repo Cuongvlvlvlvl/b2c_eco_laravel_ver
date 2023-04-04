@@ -89,14 +89,11 @@ class TargetController extends Controller
                 'value' => 'required|numeric',
             ]);
             if($uid == $uidc){
-                $target = Target::where([
-                    ['id', '=', $uid],
-                    ['idt', '=', $id]
-                ])->first();
-                $target->ida = $req->ida;
-                $target->name = $req->name;
-                $target->value = $req->value;
-                $target->save();
+                $target = Target::where('idt', $id)->update([
+                    'name' => $req->name,
+                    'value' => $req->value,
+                    'ida' => $req->ida,
+                ]);
             } else {
                 $today = date('Y-m-d H:i:s');
                 $target = Target::create([
