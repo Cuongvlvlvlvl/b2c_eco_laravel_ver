@@ -20,7 +20,7 @@ class TargetController extends Controller
 
         $type = Target::where([
             ['id', '=', $uid],
-            ['idr', '=', $id]
+            ['idt', '=', $id]
         ])->first();
 
         return response()->json([
@@ -91,7 +91,7 @@ class TargetController extends Controller
             if($uid == $uidc){
                 $target = Target::where([
                     ['id', '=', $uid],
-                    ['idr', '=', $id]
+                    ['idt', '=', $id]
                 ])->first();
                 $target->ida = $req->ida;
                 $target->name = $req->name;
@@ -132,7 +132,7 @@ class TargetController extends Controller
         } else {
             Target::where([
                 ['id', '=', $uid],
-                ['idr', '=', $id]
+                ['idt', '=', $id]
             ])->delete();
         }
         return response()->json([

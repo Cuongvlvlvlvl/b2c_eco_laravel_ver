@@ -21,7 +21,7 @@ class SpendingController extends Controller
 
         $type = Spending::where([
             ['id', '=', $uid],
-            ['idr', '=', $id]
+            ['ids', '=', $id]
         ])->first();
 
         return response()->json([
@@ -85,7 +85,7 @@ class SpendingController extends Controller
         
         $uidc = auth()->user()->id;
 
-        try{
+        // try{
             $req->validate([
                 'idc' => 'required|numeric',
                 'name' => 'required|string',
@@ -93,14 +93,12 @@ class SpendingController extends Controller
                 'desc' => 'string',
             ]);
             if($uid == $uidc){
-                $spending = Spending::where([
-                    ['id', '=', $uid],
-                    ['idr', '=', $id]
-                ])->get()->first();
-                $spending->name = $req->name;
-                $spending->value = $req->value;
-                $spending->desc = $req->desc;
-                $spending->save();
+                $spending = Spending::where('ids', $id)->update([
+                    'idc' => $req->idc,
+                    'name' => $req->name,
+                    'value' => $req->value,
+                    'desc' => $req->desc,
+                ]);
             } else {
                 $today = date('Y-m-d H:i:s');
                 $spending = Spending::create([
@@ -111,14 +109,14 @@ class SpendingController extends Controller
                     'desc' => $req->desc,
                 ])->get()->last();
             }
-        } catch(Throwable $ex) {
+        // } catch(Throwable $ex) {
 
-            return response()->json([
-                'status' => 'err',
-                'message' => 'bad request',
-            ], 400);
+        //     return response()->json([
+        //         'status' => 'err',
+        //         'message' => 'bad request',
+        //     ], 400);
 
-        }
+        // }
 
         return response()->json([
             'status' => 'success',
@@ -137,7 +135,7 @@ class SpendingController extends Controller
         } else {
             Spending::where([
                 ['id', '=', $uid],
-                ['idr', '=', $id]
+                ['ids', '=', $id]
             ])->delete();
         }
         return response()->json([

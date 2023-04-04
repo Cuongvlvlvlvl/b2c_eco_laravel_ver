@@ -20,7 +20,7 @@ class DeptController extends Controller
 
         $type = Dept::where([
             ['id', '=', $uid],
-            ['idr', '=', $id]
+            ['idd', '=', $id]
         ])->first();
 
         return response()->json([
