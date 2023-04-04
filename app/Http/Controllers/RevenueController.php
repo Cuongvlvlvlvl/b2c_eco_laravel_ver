@@ -151,7 +151,7 @@ class RevenueController extends Controller
         $result = DB::select("SELECT * FROM revenue WHERE revenue.id = '$uid' ORDER BY revenue.idr DESC LIMIT 7");
         return response()->json([
             'status' => 'success',
-            'message' => $result,
+            'data' => $result,
         ], 200);
     }
 }

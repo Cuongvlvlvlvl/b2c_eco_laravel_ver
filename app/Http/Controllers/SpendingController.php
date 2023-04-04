@@ -152,7 +152,7 @@ class SpendingController extends Controller
         $result = DB::select("SELECT category.name as category, SUM(spending.value) as value FROM (SELECT * FROM spending WHERE spending.id= '$uid' ) spending INNER JOIN category ON spending.idc=category.idc GROUP BY category.name");
         return response()->json([
             'status' => 'success',
-            'message' => $result,
+            'data' => $result,
         ], 200);
     }
 
@@ -161,7 +161,7 @@ class SpendingController extends Controller
         $result = DB::select("SELECT * FROM spending WHERE spending.id = '$uid' ORDER BY spending.ids DESC LIMIT 7");
         return response()->json([
             'status' => 'success',
-            'message' => $result,
+            'data' => $result,
         ], 200);
     }
 }

@@ -40,7 +40,7 @@ Route::controller(DeptController::class)->group(function(){
 });
 
 Route::controller(RevenueController::class)->group(function(){
-    Route::get('revenue/calc', 'getRevenueCalc');
+    Route::get('revenue/calc/', 'getRevenueCalc');
     Route::get('revenue/', 'getAllRevenues');
     Route::get('revenue/{id}', 'getRevenue');
     Route::post('revenue/', 'createRevenue');
@@ -49,7 +49,7 @@ Route::controller(RevenueController::class)->group(function(){
 });
 
 Route::controller(SpendingController::class)->group(function(){
-    Route::get('spending/calc', 'getSpendingCalc');
+    Route::get('spending/calc/', 'getSpendingCalc');
     Route::get('spending/calcsv', 'getTopSpending');
     Route::get('spending/', 'getAllSpendings');
     Route::get('spending/{id}', 'getSpending');
