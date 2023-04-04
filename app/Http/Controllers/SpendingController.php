@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Spending;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -61,7 +62,7 @@ class SpendingController extends Controller
                 'idc' => $req->idc,
                 'name' => $req->name,
                 'value' => $req->value,
-                'adddate' => $req->adddate,
+                'adddate' => Carbon::parse($req->adddate),
                 'desc' => $req->desc,
             ])->get()->last();
         } catch(Throwable $ex) {
